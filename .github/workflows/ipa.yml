@@ -1,0 +1,22 @@
+name: Build IPAop
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-ipa:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Build iOS IPA
+        uses: cedvdb/action-flutter-build-ios@v1
+
+      - name: Upload IPA to GitHub Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MyApp.ipa
+          path: build/ios/ipa/*.ipa
