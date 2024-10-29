@@ -3,20 +3,23 @@ name: Build IPA
 on:
   push:
     branches:
-      - master
+      - main  # Trigger build on main branch. Modify if needed.
 
 jobs:
   build-ipa:
-    runs-on: macos-latest
+    runs-on: macos-12  # Ensures compatibility with macOS runners
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: actions/setup-flutter@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.10.5'  # Use a specific Flutter version here
+
+      - name: Switch to stable channel
+        run: flutter channel stable && flutter upgrade
 
       - name: Install dependencies
         run: flutter pub get
