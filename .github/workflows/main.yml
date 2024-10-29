@@ -1,0 +1,33 @@
+name: Build IPA
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-ipa:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build iOS app
+        env:
+          CI: true
+        run: flutter build ipa --release --export-options-plist=ExportOptions.plist
+
+      - name: Upload IPA to GitHub Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MyApp.ipa
+          path: build/ios/ipa/*.ipa
