@@ -3,7 +3,7 @@ name: Build IPA
 on:
   push:
     branches:
-      - main  # Trigger build on main branch. Modify if needed.
+      - master
 
 jobs:
   build-ipa:
